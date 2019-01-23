@@ -5,10 +5,12 @@ $(function() {
     var inputPassword = $('#password')
     var btnValidate = $('#validate')
 
-    var content = $('#content')
+    var messageArea = $('#message-area')
     var inputMsg = $('#message')
     var status = $('#status')
     var btnSend = $('#send')
+
+    var connectionArea = $('#connection-area')
 
     inputMsg.hide()
     btnSend.hide()
@@ -54,6 +56,10 @@ $(function() {
                 status.text(json.error)
                 if(!sessionId || !user) enableLogIn()
                 break
+
+            case 'connection':
+                updateConnection(json.data.connection, json.data.status)
+                break
             
             case 'history':
                 user = json.user
@@ -63,6 +69,10 @@ $(function() {
                     if(json.data[i].sender_name === user.name) color = 'green'
                     addMessage(json.data[i].sender_name, json.data[i].message, color, 
                         new Date(json.data[i].time))
+                }
+                
+                for(var i = 0; i < json.online_users.length; i++) {
+                    updateConnection(json.online_users[i], 'connect')
                 }
                 break
 
@@ -113,7 +123,7 @@ $(function() {
             console.log('sent to websocket: ' + msg)
             $(this).val('')
 
-            input.attr('disabled', 'disabled')
+            inputMsg.attr('disabled', 'disabled')
         }
     })
 
@@ -128,7 +138,7 @@ $(function() {
         }
         connection.send(JSON.stringify(msgObj))
         console.log('sent to websocket: ' + msg)
-        input.val('')
+        inputMsg.val('')
 
         inputMsg.attr('disabled', 'disabled')
     })
@@ -161,13 +171,25 @@ $(function() {
 
         inputMsg.show()
         btnSend.show()
+
+        inputMsg.removeAttr('disabled')
     }
 
     function addMessage(senderName, message, color, dt) {
-        content.append('<p><span style="color:' + color + '">'
+        messageArea.append('<p><span style="color:' + color + '">'
             + senderName + '</span> @ ' + (dt.getHours() < 10 ? '0'
             + dt.getHours() : dt.getHours()) + ':'
             + (dt.getMinutes() < 10? '0' + dt.getMinutes() : dt.getMinutes())
             + ': ' + message + '</p></ br>')
+    }
+
+    function updateConnection(connection, status) {
+        $('#' + connection.session_id).remove()
+
+        if(status === 'connect') {
+            connectionArea.append('<li id="' + connection.session_id 
+                + '"><span style="color:green;">'+ connection.user.name 
+                + '</span> @ ' + connection.session_id + '</li>')
+        }
     }
 })

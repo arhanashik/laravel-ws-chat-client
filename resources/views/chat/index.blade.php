@@ -2,7 +2,13 @@
 
 @section('content')
     <div class="container">
-        <div class="message-area" id="content"></div>
+        <div class="row">
+            <div class="col-md-8 message-area" id="message-area"></div>
+            <div class="col-md-4" >
+                <h3>Online users<h3>
+                <ul id="connection-area"></ul>
+            </div>
+        </div>
         <div class="row">
             <span id="status">Connecting...</span>
             <input class="form-control" name="message" id="message" />

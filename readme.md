@@ -15,7 +15,7 @@ This is a simple client app for websocket using laravel.
 - With sigh up new user can be added to the system
 - With start chatting a user need to login to the system and then start chat
 - Log in process and messaging are handled with websocket client
-- After logging in the user can be able to see the previous chat history and send his/her own via websocket
+- After logging in the user can be able to see the previous chat history, active user list and send his/her own message via websocket
 - The websocket connections and events are handled with jquery
 - MySql database is used for storing data
 - If any error occers or the server disconnects the app will show the status
