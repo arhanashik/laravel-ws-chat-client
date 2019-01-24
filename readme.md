@@ -23,3 +23,9 @@ This is a simple client app for websocket using laravel.
 - So, with refreshing the page or logging in again will recreate the session
 - With closing the browser or any other event of disconnecting from the server the session will be removed
 - During the server running number of connection and online users can be found with an API called status
+
+## Access the client from any device in the same network
+- It's helpful for local group chat
+- Just change the ip address of the web socket server in the **public -> js -> chat-fronted.js -> line 28** with the ipaddresss of the host device
+- New line should be like `var connection = new WebSocket('ws://<new-ip-address>:1337')`
+- To get ipaddress run **ipconfig** in cmd and get the ipv4
